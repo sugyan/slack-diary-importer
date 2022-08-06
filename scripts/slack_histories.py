@@ -34,15 +34,18 @@ def display(message: Message, users: dict[str, str]) -> None:
 
 
 def main() -> None:
-    load_dotenv()
-    exporter = SlackExporter(os.getenv("SLACK_BOT_TOKEN", ""))
+    token = os.getenv("SLACK_BOT_TOKEN", "")
+    target_channel = os.getenv("SLACK_CHANNEL", "")
+
+    exporter = SlackExporter(token)
     try:
         users = exporter.users_dict()
-        for message in exporter.histories(os.getenv("SLACK_CHANNEL", "")):
+        for message in exporter.histories(target_channel):
             display(message, users)
     except SlackApiError as e:
         logging.error(e)
 
 
 if __name__ == "__main__":
+    load_dotenv()
     main()
