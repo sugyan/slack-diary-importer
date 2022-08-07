@@ -19,8 +19,7 @@ def cloudfunctions_main(event: Any, context: Any) -> None:
     min_date = datetime.today().date() - timedelta(days=int(data))
     logging.basicConfig(level=logging.INFO)
     logging.info(f"Start export & import data since {min_date} to today")
-    # run(min_date)
-    run(None)
+    run(min_date)
 
 
 def run(min_date: Optional[date]) -> None:
