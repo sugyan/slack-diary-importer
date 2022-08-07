@@ -14,7 +14,7 @@ poetry install
 cp .env.example .env
 ```
 
-## Slack API
+## Slack OAuth Token
 
 https://slack.dev/bolt-python/tutorial/getting-started
 
@@ -30,4 +30,22 @@ Create an OAuth app, get "Consumer Key" and "Consumer Secret".
 
 ```
 poetry run python script/hatena_oauth.py
+```
+
+## Export & Inport
+
+```
+poetry run python main.py --days 7
+```
+
+## Deply to Cloud Functions
+
+```
+poetry export --without-hashes -o requirements.txt
+gcloud functions deploy $FUNCTION_NAME \
+    --gen2 \
+    --runtime python310 \
+    --source . \
+    --entry-point cloudfunctions_main \
+    --trigger-topic $TOPIC
 ```
