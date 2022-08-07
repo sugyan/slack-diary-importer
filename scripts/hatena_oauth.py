@@ -1,14 +1,13 @@
-import os
-
-from dotenv import load_dotenv
 from requests_oauthlib import OAuth1Session
+from slack_diary_importer.config import settings
 
 
 def main() -> None:
-    client_key = os.getenv("HATENA_OAUTH_CONSUMER_KEY", "")
-    client_secret = os.getenv("HATENA_OAUTH_CONSUMER_SECRET", "")
-
-    oauth = OAuth1Session(client_key, client_secret=client_secret, callback_uri="oob")
+    oauth = OAuth1Session(
+        settings.hatena_oauth_consumer_key,
+        client_secret=settings.hatena_oauth_consumer_secret,
+        callback_uri="oob",
+    )
     request_token_response = oauth.fetch_request_token(
         "https://www.hatena.com/oauth/initiate",
         data={"scope": "read_private,write_private"},
@@ -19,8 +18,8 @@ def main() -> None:
     print(f"Please go here and authorize, {authorization_url}")
     verifier = input("Please input the verifier: ")
     oauth_tokens = OAuth1Session(
-        client_key,
-        client_secret=client_secret,
+        settings.hatena_oauth_consumer_key,
+        client_secret=settings.hatena_oauth_consumer_secret,
         resource_owner_key=request_token_response.get("oauth_token"),
         resource_owner_secret=request_token_response.get("oauth_token_secret"),
         verifier=verifier,
@@ -31,5 +30,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main()
