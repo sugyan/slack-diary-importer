@@ -32,7 +32,7 @@ Create an OAuth app, get "Consumer Key" and "Consumer Secret".
 poetry run python script/hatena_oauth.py
 ```
 
-## Export & Inport
+## Export & Import
 
 ```
 poetry run python main.py --days 7
