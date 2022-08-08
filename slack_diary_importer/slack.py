@@ -4,6 +4,8 @@ from typing import Any, Generator, Optional
 
 from slack_bolt import App
 
+from slack_diary_importer import JST
+
 
 @dataclass
 class Message:
@@ -28,7 +30,7 @@ class SlackExporter:
         for response in self.app.client.conversations_history(channel=channel):
             for message in response.data["messages"]:
                 # Check timestamp
-                timestamp = datetime.fromtimestamp(int(float(message["ts"])))
+                timestamp = datetime.fromtimestamp(int(float(message["ts"])), tz=JST)
                 if min_date is not None and timestamp.date() < min_date:
                     return
                 # Check user
